@@ -2,8 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="GeneralServiceProvider_main" target="1.8" />
-      <module name="GeneralServiceProvider_test" target="1.8" />
+      <module name="gsp_main" target="1.8" />
+      <module name="gsp_test" target="1.8" />
+      <module name="service_utils_main" target="1.8" />
+      <module name="service_utils_test" target="1.8" />
+      <module name="ServiceUtils_main" target="1.8" />
+      <module name="ServiceUtils_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

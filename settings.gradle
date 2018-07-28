@@ -1,3 +1,3 @@
-rootProject.name = "GeneralServiceProvider"
-include 'gsp'
+rootProject.name = "ServiceUtils&Tests"
+include 'ServiceUtils'
 
