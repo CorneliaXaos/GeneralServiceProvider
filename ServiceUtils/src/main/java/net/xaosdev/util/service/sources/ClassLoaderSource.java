@@ -1,4 +1,4 @@
-package net.xaosdev.util.service.impl;
+package net.xaosdev.util.service.sources;
 
 import net.xaosdev.util.service.Source;
 

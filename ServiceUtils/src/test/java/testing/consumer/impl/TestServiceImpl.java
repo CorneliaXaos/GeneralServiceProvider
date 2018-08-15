@@ -1,6 +1,6 @@
-package external_pkg.consumer.service;
+package testing.consumer.impl;
 
-import external_pkg.producer.spi.TestService;
+import testing.producer.spi.TestService;
 
 public class TestServiceImpl implements TestService {
 

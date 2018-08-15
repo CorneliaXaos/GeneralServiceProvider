@@ -1,5 +1,7 @@
 package net.xaosdev.util.service;
 
+import net.xaosdev.util.service.internal.IsolatedServiceLoader;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,16 +15,13 @@ import java.util.stream.StreamSupport;
 /**
  * A Service is a set of automatically managed java.util.ServiceLoader instances.
  *
- * A ServiceLoader instance will be created for each source allowing new sources to be added and removed on the fly
- * by the user.  This will allow users to use the ServiceLoader indirectly, and only need to be concerned with where
- * the service classes are being loaded from.
+ * An IsolatedServiceLoader instance will be created for each source allowing new sources to be added and removed on
+ * the fly by the user.  This will allow users to use the ServiceLoader indirectly, and only need to be concerned with
+ * where the service classes are being loaded from.
  *
  * java.util.ServiceLoader best practices should still be enforced!  This means that, ideally, your SPI classes should
  * be interfaces, and the implementations should have no-argument or default constructors to ensure no unexpected
  * exceptions are fired.
- *
- * The Service class will catch all throwables and throw a ServiceException with the original throwable as parent.
- * This allows error handling to be pipelined appropriately.
  * @param <T> the SPI to find implementations for.
  */
 public final class Service<T> {
@@ -40,9 +39,9 @@ public final class Service<T> {
     private final Map<UUID, Source> sourceMap = new HashMap<>();
 
     /**
-     * A mapping of UUIDs to ServiceLoaders, for loader management.
+     * A mapping of UUIDs to IsolatedServiceLoaders, for loader management.
      */
-    private final Map<UUID, ServiceLoader<T>> loaderMap = new HashMap<>();
+    private final Map<UUID, IsolatedServiceLoader<T>> loaderMap = new HashMap<>();
 
     //endregion
 
@@ -70,7 +69,7 @@ public final class Service<T> {
         }
 
         sourceMap.put(source.getUUID(), source);
-        loaderMap.put(source.getUUID(), ServiceLoader.load(clazz, source.getClassLoader()));
+        loaderMap.put(source.getUUID(), IsolatedServiceLoader.load(clazz, source.getClassLoader()));
     }
 
     /**
@@ -111,7 +110,7 @@ public final class Service<T> {
      */
     public Stream<T> getServiceStream() {
         Stream<T> stream = Stream.empty();
-        for (ServiceLoader<T> loader : loaderMap.values()) {
+        for (IsolatedServiceLoader<T> loader : loaderMap.values()) {
             stream = Stream.concat(stream, StreamSupport.stream(loader.spliterator(), false));
         }
         return stream;

@@ -1,7 +1,7 @@
 package net.xaosdev.util.service;
 
-import external_pkg.producer.spi.TestService;
-import net.xaosdev.util.service.impl.ClassLoaderSource;
+import testing.producer.spi.TestService;
+import net.xaosdev.util.service.sources.ClassLoaderSource;
 import org.junit.Before;
 import org.junit.Test;
 

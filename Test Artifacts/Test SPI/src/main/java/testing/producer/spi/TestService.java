@@ -1,4 +1,4 @@
-package external_pkg.producer.spi;
+package testing.producer.spi;
 
 public interface TestService {
 

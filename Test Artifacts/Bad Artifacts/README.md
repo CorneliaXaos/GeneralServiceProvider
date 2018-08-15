@@ -1,0 +1,2 @@
+This "module" contains improper artifacts that should cause some kind of issue if attempted to be loaded by the
+JarFileSourceCreator.  These files are "exported" into the appropriate directories for failure testing.

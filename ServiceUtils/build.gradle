@@ -1,3 +1,11 @@
-jar {
-    baseName = "net.xaosdev.util.service"
+apply plugin: 'java'
+
+dependencies {
+    testCompile project(':Test Artifacts:Test SPI')
 }
+
+jar {
+    baseName = "XaosDev-ServiceUtils"
+}
+
+processTestResources.dependsOn(':Test Artifacts:processTestResources')

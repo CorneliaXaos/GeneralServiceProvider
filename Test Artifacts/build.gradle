@@ -1,0 +1,74 @@
+// This project simply builds the underlying sub-project artifacts and ensures that
+// files are "exported" for testing purposes.  Namely, it exposes a directly of
+// "implementation artifacts" used for external load testing.
+
+subprojects {
+    apply plugin: 'java'
+
+    jar {
+        archiveName "${baseName}.${extension}"
+    }
+}
+
+configurations {
+    exported {
+        transitive false
+    }
+    exported_child {
+        transitive false
+    }
+}
+
+dependencies {
+    exported project('Test Impl 1')
+    exported project('Test Impl 2')
+    exported_child project('Test Impl 3')
+}
+
+task exportTestingLibs(type: Copy) {
+    outputs.dir project.buildDir.toString() + '/exported'
+
+    from configurations.exported
+    into project.buildDir.toString() + '/exported'
+}
+
+task exportNestedLibs(type: Copy) {
+    outputs.dir project.buildDir.toString() + '/exported/child_dir'
+
+    from configurations.exported_child
+    into project.buildDir.toString() + '/exported/child_dir'
+}
+
+task exportTestingClasses(type: Copy) {
+    outputs.dir project.buildDir.toString() + '/classes'
+
+    dependsOn(exportTestingLibs)
+
+    from zipTree(project.buildDir.toString() + '/exported/Test Impl 1.jar')
+    into project.buildDir.toString() + '/classes'
+}
+
+task exportBadArtifacts(type: Copy) {
+    outputs.dir project.buildDir.toString() + '/exported'
+
+    from projectDir.toString() + '/Bad Artifacts'
+    include "*.jar"
+    include "*.txt"
+    into project.buildDir.toString() + '/exported'
+}
+
+task processTestResources {
+    description 'Processes test resources.'
+
+    dependsOn(exportTestingLibs)
+    dependsOn(exportTestingClasses)
+    dependsOn(exportBadArtifacts)
+    dependsOn(exportNestedLibs)
+}
+
+task clean(type: Delete) {
+    group 'build'
+    description 'Deletes the build directory.'
+
+    delete project.buildDir
+}
