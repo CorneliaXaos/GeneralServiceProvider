@@ -36,7 +36,7 @@ public final class JarFileSourceCreator {
      */
     public static Source tryCreateSourceFromFile(final File jar) {
         try {
-            return validate(jar) ? new URLSource(jar.toURL()) : null;
+            return validate(jar) ? new URLSource(jar.toURI().toURL()) : null;
         } catch (MalformedURLException e) {
             return null;
         }
@@ -53,7 +53,7 @@ public final class JarFileSourceCreator {
      */
     public static Source tryCreateSourceFromFile(final File jar, final ClassLoader classLoader) {
         try {
-            return validate(jar) ? new URLSource(jar.toURL(), classLoader) : null;
+            return validate(jar) ? new URLSource(jar.toURI().toURL(), classLoader) : null;
         } catch (MalformedURLException e) {
             return null;
         }

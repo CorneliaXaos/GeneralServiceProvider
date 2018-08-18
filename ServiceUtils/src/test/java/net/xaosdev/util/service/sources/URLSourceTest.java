@@ -25,7 +25,7 @@ public class URLSourceTest {
     private void testSource(final String path) throws Exception {
         // Arrange
         final File file = new File(path);
-        final URLSource source = new URLSource(file.toURL());
+        final URLSource source = new URLSource(file.toURI().toURL());
         final Service<TestService> service = new Service<>(TestService.class);
         service.addSource(source);
 
