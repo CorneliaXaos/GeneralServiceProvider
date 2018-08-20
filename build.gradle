@@ -7,7 +7,7 @@ subprojects {
 
         //// GAV
         group 'net.xaosdev'
-        version '0.4.1'
+        version '0.5.0'
 
         //// Java Specific
         sourceCompatibility = 1.8
@@ -20,5 +20,12 @@ subprojects {
         //// Common Tasks
         // Ensure tests ALWAYS RUN (I like to see these and not UP-TO-DATE)
         test.dependsOn(cleanTest)
+
+        // Clean IntelliJ out directories.. these somehow still show up even though IntelliJ should be delegating
+        // to gradle for various operations..  It seems it's not for some reason. :/
+        task cleanOut(type: Delete) {
+            delete projectDir.toString() + '/out'
+        }
+        clean.dependsOn(cleanOut)
     }
 }

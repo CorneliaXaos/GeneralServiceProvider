@@ -5,4 +5,5 @@ include ':Test Artifacts:Test SPI'
 include ':Test Artifacts:Test Impl 1'
 include ':Test Artifacts:Test Impl 2'
 include ':Test Artifacts:Test Impl 3'
+include ':Test Artifacts:Test Permissions'
 

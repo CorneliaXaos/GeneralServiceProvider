@@ -17,12 +17,17 @@ configurations {
     exported_child {
         transitive false
     }
+    exported_isolated {
+        transitive false
+    }
 }
 
 dependencies {
     exported project('Test Impl 1')
     exported project('Test Impl 2')
     exported_child project('Test Impl 3')
+
+    exported_isolated project('Test Permissions')
 }
 
 task exportTestingLibs(type: Copy) {
@@ -37,6 +42,13 @@ task exportNestedLibs(type: Copy) {
 
     from configurations.exported_child
     into project.buildDir.toString() + '/exported/child_dir'
+}
+
+task exportIsolatedLibs(type: Copy) {
+    outputs.dir project.buildDir.toString() + '/isolated/'
+
+    from configurations.exported_isolated
+    into project.buildDir.toString() + '/isolated/'
 }
 
 task exportTestingClasses(type: Copy) {
@@ -64,6 +76,7 @@ task processTestResources {
     dependsOn(exportTestingClasses)
     dependsOn(exportBadArtifacts)
     dependsOn(exportNestedLibs)
+    dependsOn(exportIsolatedLibs)
 }
 
 task clean(type: Delete) {

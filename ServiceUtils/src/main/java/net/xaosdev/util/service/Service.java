@@ -1,7 +1,9 @@
 package net.xaosdev.util.service;
 
 import net.xaosdev.util.service.internal.IsolatedServiceLoader;
+import net.xaosdev.util.service.security.ServiceUtilityPermission;
 
+import java.security.AccessController;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -52,6 +54,10 @@ public final class Service<T> {
      * @param clazz the Class object used to identify service implementations.
      */
     public Service(final Class<T> clazz) {
+        if (System.getSecurityManager() != null) {
+            AccessController.checkPermission(new ServiceUtilityPermission(ServiceUtilityPermission.Type.UPDATE));
+        }
+
         this.clazz = clazz;
     }
 
@@ -64,6 +70,10 @@ public final class Service<T> {
      * @param source the Source to add.
      */
     public void addSource(final Source source) {
+        if (System.getSecurityManager() != null) {
+            AccessController.checkPermission(new ServiceUtilityPermission(ServiceUtilityPermission.Type.UPDATE));
+        }
+
         if (sourceMap.containsKey(source.getUUID())) {
             throw new IllegalArgumentException("Source with UUID already added to this Service.");
         }
@@ -77,6 +87,10 @@ public final class Service<T> {
      * @return an unmodifiable view of all the sources added to this Service.
      */
     public Collection<Source> getSources() {
+        if (System.getSecurityManager() != null) {
+            AccessController.checkPermission(new ServiceUtilityPermission(ServiceUtilityPermission.Type.UPDATE));
+        }
+
         return Collections.unmodifiableCollection(sourceMap.values());
     }
 
@@ -86,6 +100,10 @@ public final class Service<T> {
      * @return a boolean indicating if the source was removed.
      */
     public boolean removeSource(final Source source) {
+        if (System.getSecurityManager() != null) {
+            AccessController.checkPermission(new ServiceUtilityPermission(ServiceUtilityPermission.Type.UPDATE));
+        }
+
         return removeSource(source.getUUID()) != null;
     }
 
@@ -95,6 +113,10 @@ public final class Service<T> {
      * @return the Source removed from this Service or null if none present.
      */
     public Source removeSource(final UUID uuid) {
+        if (System.getSecurityManager() != null) {
+            AccessController.checkPermission(new ServiceUtilityPermission(ServiceUtilityPermission.Type.UPDATE));
+        }
+
         if (!sourceMap.containsKey(uuid)) {
             return null;
         }
@@ -109,6 +131,10 @@ public final class Service<T> {
      * @return a Stream to the implementations found by this Service.
      */
     public Stream<T> getServiceStream() {
+        if (System.getSecurityManager() != null) {
+            AccessController.checkPermission(new ServiceUtilityPermission(ServiceUtilityPermission.Type.ACCESS));
+        }
+
         Stream<T> stream = Stream.empty();
         for (IsolatedServiceLoader<T> loader : loaderMap.values()) {
             stream = Stream.concat(stream, StreamSupport.stream(loader.spliterator(), false));
