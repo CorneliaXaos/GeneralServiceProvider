@@ -7,7 +7,7 @@ dependencies {
 }
 
 jar {
-    baseName = 'service'
+    baseName = 'XaosDev-ServiceUtils'
 }
 
 processTestResources.dependsOn(':Test Artifacts:processTestResources')
@@ -21,7 +21,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     group 'documentation'
     description 'Builds a jar file containing the javadoc'
 
-    baseName = 'service'
+    baseName = 'XaosDev-ServiceUtils'
     classifier = 'javadoc'
     from javadoc.destinationDir
 }

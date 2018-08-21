@@ -12,6 +12,7 @@ ServiceUtils is a small library used to simplify working with the Java ServiceLo
 
 ServiceUtils is shipped with Jitpack and can be declared as a dependency using any maven-compatible tool:
 
+|Maven Key  |Value             |
 |-----------|------------------|
 |Repository |https://jitpack.io|
 |Group ID   |net.xaosdev       |
