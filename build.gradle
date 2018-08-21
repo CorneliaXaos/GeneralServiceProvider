@@ -6,8 +6,8 @@ subprojects {
         }
 
         //// GAV
-        group 'net.xaosdev'
-        version '0.5.0'
+        group 'net.xaosdev.util'
+        version '1.0.0'
 
         //// Java Specific
         sourceCompatibility = 1.8

@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 dependencies {
     testCompile project(':Test Artifacts:Test SPI')
@@ -6,11 +7,53 @@ dependencies {
 }
 
 jar {
-    //baseName = 'XaosDev-ServiceUtils'
+    baseName = 'service'
 }
 
 processTestResources.dependsOn(':Test Artifacts:processTestResources')
 
 test {
     systemProperty 'java.ext.dirs', '../Test Artifacts/build/extensions'
+}
+
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    group 'documentation'
+    description 'Builds a jar file containing the javadoc'
+
+    baseName = 'service'
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+// Set Up building for release
+publishing {
+    publications {
+        main(MavenPublication) {
+            artifactId = 'service'
+            from components.java
+            artifact javadocJar
+            pom {
+                name = 'Service Utils'
+                description = 'A wrapper library around the Java Service Loader for creating extensible ' +
+                        'applications easily.'
+                url = 'https://github.com/CorneliaXaos/ServiceUtils'
+                license {
+                    name = 'The Apache License, Version 2.0'
+                    url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                }
+                developers {
+                    developer {
+                        id = 'corneliaxaos'
+                        name = 'Cornelia Ada Schultz'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git@github.com:CorneliaXaos/ServiceUtils.git'
+                    developerConnection = 'scm:git:git@github.com:CorneliaXaos/ServiceUtils.git'
+                    url = 'https://github.com/CorneliaXaos/ServiceUtils'
+                }
+            }
+        }
+    }
 }

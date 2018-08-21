@@ -1,0 +1,8 @@
+<component name="CopyrightManager">
+  <settings>
+    <module2copyright>
+      <element module="Production" copyright="Cornelia-Apache" />
+      <element module="Tests" copyright="Cornelia-Apache" />
+    </module2copyright>
+  </settings>
+</component>
