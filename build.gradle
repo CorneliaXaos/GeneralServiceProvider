@@ -1,0 +1,31 @@
+subprojects {
+    plugins.withType(JavaPlugin) {
+        // Repositories.
+        repositories {
+            mavenCentral()
+        }
+
+        //// GAV
+        group 'net.xaosdev.util'
+        version '1.0.0'
+
+        //// Java Specific
+        sourceCompatibility = 1.8
+
+        //// Common Dependencies
+        dependencies {
+            testCompile group: 'junit', name: 'junit', version: '4.12'
+        }
+
+        //// Common Tasks
+        // Ensure tests ALWAYS RUN (I like to see these and not UP-TO-DATE)
+        test.dependsOn(cleanTest)
+
+        // Clean IntelliJ out directories.. these somehow still show up even though IntelliJ should be delegating
+        // to gradle for various operations..  It seems it's not for some reason. :/
+        task cleanOut(type: Delete) {
+            delete projectDir.toString() + '/out'
+        }
+        clean.dependsOn(cleanOut)
+    }
+}
