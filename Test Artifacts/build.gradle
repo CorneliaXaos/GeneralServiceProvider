@@ -20,6 +20,9 @@ configurations {
     exported_isolated {
         transitive false
     }
+    exported_extensions {
+        transitive false
+    }
 }
 
 dependencies {
@@ -28,6 +31,9 @@ dependencies {
     exported_child project('Test Impl 3')
 
     exported_isolated project('Test Permissions')
+
+    exported_extensions project('Test SPI Installed')
+    exported_extensions project('Test Impl 4')
 }
 
 task exportTestingLibs(type: Copy) {
@@ -69,6 +75,13 @@ task exportBadArtifacts(type: Copy) {
     into project.buildDir.toString() + '/exported'
 }
 
+task exportExtensionLibs(type: Copy) {
+    outputs.dir project.buildDir.toString() + '/extensions'
+
+    from configurations.exported_extensions
+    into project.buildDir.toString() + '/extensions'
+}
+
 task processTestResources {
     description 'Processes test resources.'
 
@@ -77,6 +90,7 @@ task processTestResources {
     dependsOn(exportBadArtifacts)
     dependsOn(exportNestedLibs)
     dependsOn(exportIsolatedLibs)
+    dependsOn(exportExtensionLibs)
 }
 
 task clean(type: Delete) {

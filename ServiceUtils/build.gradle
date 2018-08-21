@@ -2,10 +2,15 @@ apply plugin: 'java'
 
 dependencies {
     testCompile project(':Test Artifacts:Test SPI')
+    testCompileOnly project(':Test Artifacts:Test SPI Installed')
 }
 
 jar {
-    baseName = "XaosDev-ServiceUtils"
+    //baseName = 'XaosDev-ServiceUtils'
 }
 
 processTestResources.dependsOn(':Test Artifacts:processTestResources')
+
+test {
+    systemProperty 'java.ext.dirs', '../Test Artifacts/build/extensions'
+}
